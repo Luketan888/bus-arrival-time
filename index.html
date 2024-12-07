@@ -1,47 +1,78 @@
-// Use the LTA API to fetch bus arrival times
-const form = document.getElementById('bus-form');
-const resultDiv = document.getElementById('result');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Arrival Time</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  
-  const busStopNumber = document.getElementById('bus-stop').value;
+  <h1>Bus Arrival Time</h1>
 
-  // Check if the input is a valid number
-  if (!busStopNumber) {
-    resultDiv.innerHTML = '<p>Please enter a valid bus stop number.</p>';
-    return;
-  }
+  <form id="bus-form">
+    <label for="bus-stop">Enter Bus Stop Number:</label>
+    <input type="text" id="bus-stop" name="bus-stop" placeholder="e.g., 12345" required>
+    <button type="submit">Get Arrival Time</button>
+  </form>
 
-  // Fetch bus arrival data from LTA's Datamall API
-  const apiKey = 'CDQSBpysS2qRZWVI4loIcw=='; // Your API key
-  const apiUrl = `https://api.data.gov.sg/v1/transport/bus-arrival?bus_stop_id=${busStopNumber}`;
+  <div id="result"></div>
 
-  try {
-    const response = await fetch(apiUrl, {
-      headers: {
-        'AccountKey': apiKey
+  <script>
+    // Your existing JavaScript logic
+    const form = document.getElementById('bus-form');
+    const resultDiv = document.getElementById('result');
+    
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const busStopNumber = document.getElementById('bus-stop').value;
+
+      // Check if the input is a valid number
+      if (!busStopNumber) {
+        resultDiv.innerHTML = 'Please enter a valid bus stop number.';
+        return;
+      }
+
+      // Fetch bus arrival data from LTA's Datamall API
+      const apiKey = 'CDQSBpysS2qRZWVI4loIcw=='; // Your API key
+      const apiUrl = `https://api.data.gov.sg/v1/transport/bus-arrival?bus_stop_id=${busStopNumber}`;
+      
+      try {
+        const response = await fetch(apiUrl, {
+          headers: {
+            'AccountKey': apiKey
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+
+          // Process the response to display bus arrival times
+          const arrivals = data.services;
+          if (arrivals.length > 0) {
+            let output = `<h2>Bus Arrival Times for Bus Stop ${busStopNumber}:</h2>`;
+            arrivals.forEach(service => {
+              output += `<p>Bus ${service.bus_no}: ${service.next_bus.estimate_arrival} minutes</p>`;
+            });
+            resultDiv.innerHTML = output;
+          } else {
+            resultDiv.innerHTML = 'No buses arriving soon.';
+          }
+        } else {
+          resultDiv.innerHTML = 'Error fetching data from API.';
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `Error: ${error.message}`;
       }
     });
-
-    if (response.ok) {
-      const data = await response.json();
-
-      // Process the response to display bus arrival times
-      const arrivals = data.services;
-      if (arrivals.length > 0) {
-        let output = `<h3>Bus Arrival Times for Bus Stop ${busStopNumber}:</h3>`;
-        arrivals.forEach(service => {
-          output += `<p>Bus ${service.bus_no}: ${service.next_bus.estimate_arrival} minutes</p>`;
-        });
-        resultDiv.innerHTML = output;
-      } else {
-        resultDiv.innerHTML = `<p>No buses arriving soon.</p>`;
-      }
-    } else {
-      resultDiv.innerHTML = '<p>Error fetching data from API.</p>';
-    }
-  } catch (error) {
-    resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
-  }
-});
+  </script>
+</body>
+</html>
