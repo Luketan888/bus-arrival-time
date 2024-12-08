@@ -1,35 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Arrival Time</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to your external CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Arrival Times</title>
 </head>
 <body>
-
-    <div class="container">
-        <h1>Bus Arrival Time</h1>
-        
-        <p>Enter the bus stop number to get the expected arrival times for buses:</p>
-        
-        <form id="bus-form">
-            <label for="bus-stop">Bus Stop Number:</label>
-            <input type="text" id="bus-stop" name="bus-stop" placeholder="e.g., 43011" required>
-
-            <button type="submit" id="submit-btn">Get Arrival Times</button>
-        </form>
-
-        <div id="result">
-            <!-- Results will be displayed here after fetching data -->
-        </div>
-
-        <div id="loading" class="hidden">
-            <p>Loading...</p>
-        </div>
-
-    </div>
-
-    <script src="script.js"></script> <!-- Link to your external JavaScript -->
+  <h1>Bus Arrival Times</h1>
+  
+  <label for="bus-stop-number">Enter Bus Stop Number:</label>
+  <input type="text" id="bus-stop-number">
+  <button id="get-arrival-times">Get Arrival Times</button>
+  
+  <pre id="result"></pre>
+  
+  <!-- Link to the JavaScript file that fetches the data -->
+  <script src="public/js/app.js"></script>
 </body>
 </html>
