@@ -11,9 +11,9 @@ form.addEventListener('submit', async (event) => {
         return;
     }
 
-    // Define the API URL
+    // Define the API URL with CORS Proxy
     const apiKey = 'CDQSBpysS2qRZWVI4loIcw=='; // Your API Key
-    const apiUrl = `https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=${busStopNumber}`;
+    const apiUrl = `https://cors-anywhere.herokuapp.com/https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=${busStopNumber}`;
 
     try {
         // Fetch data from LTA API
@@ -52,6 +52,7 @@ form.addEventListener('submit', async (event) => {
             resultDiv.innerHTML = '<p>Error fetching data from API. Please try again later.</p>';
         }
     } catch (error) {
+        console.error('Error:', error); // Log the error to the console for debugging
         resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
     }
 });
