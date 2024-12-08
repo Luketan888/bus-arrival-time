@@ -24,7 +24,7 @@ async function getBusArrivalTimes(stopId) {
 // Function to render bus arrival times in HTML
 function renderBusArrivalTimes(data) {
   const arrivalList = document.getElementById('arrival-list');
-  arrivalList.innerHTML = '';
+  arrivalList.innerHTML = '';  // Clear previous content
 
   if (data && data.services && data.services.length > 0) {
     data.services.forEach(service => {
@@ -37,16 +37,32 @@ function renderBusArrivalTimes(data) {
   }
 }
 
+// Function to display error messages
+function showError(message) {
+  const errorMessageDiv = document.getElementById('error-message');
+  errorMessageDiv.innerHTML = message;
+  errorMessageDiv.style.display = 'block'; // Show the error message
+}
+
+// Function to clear the error message
+function clearError() {
+  const errorMessageDiv = document.getElementById('error-message');
+  errorMessageDiv.style.display = 'none'; // Hide the error message
+}
+
 // Event listener for the form submission
 document.getElementById('get-arrival-times').addEventListener('click', async function () {
   const busStopNumber = document.getElementById('bus-stop-number').value;
 
   if (!busStopNumber) {
-    alert('Please enter a bus stop number');
+    showError('Please enter a bus stop number');
     return;
   }
 
   try {
+    // Clear any previous error messages
+    clearError();
+
     // Show loading message while fetching data
     document.getElementById('arrival-list').innerHTML = 'Loading...';
 
@@ -57,6 +73,6 @@ document.getElementById('get-arrival-times').addEventListener('click', async fun
     renderBusArrivalTimes(data);
   } catch (error) {
     console.error('Error fetching bus data:', error);
-    document.getElementById('arrival-list').innerHTML = 'Error: Unable to load bus arrival data.';
+    showError('Error: Unable to load bus arrival data. Please try again later.');
   }
 });
