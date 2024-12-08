@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Trigger this workflow when changes are pushed to the main branch
+      - main  # Trigger the workflow when changes are pushed to the main branch
 
 jobs:
   build:
@@ -20,12 +20,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm install  # Adjust if you're using a different package manager or build process
+        npm install  # Adjust this if you're using a different package manager or build process
 
     - name: Inject API key into JavaScript
       run: |
-        # Replace the placeholder 'DEFAULT_API_KEY' in app.js with the GitHub secret API key
-        sed -i "s|DEFAULT_API_KEY|${{ secrets.DATAMALL_API_KEY }}|g" app.js
+        # Replace 'DEFAULT_API_KEY' with the secret stored in GitHub Secrets
+        sed -i "s|DEFAULT_API_KEY|${{ secrets.DATAMALL_API_KEY }}|g" public/js/script.js
 
     - name: Build the app
       run: |
