@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Arrival Times</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Bus Arrival Times</h1>
-  
-  <label for="bus-stop-number">Enter Bus Stop Number:</label>
-  <input type="text" id="bus-stop-number">
-  <button id="get-arrival-times">Get Arrival Times</button>
-  
-  <pre id="result"></pre>
-  
-  <!-- Link to the JavaScript file that fetches the data -->
+  <div class="container">
+    <h1>Bus Arrival Times</h1>
+    <label for="bus-stop">Enter Bus Stop Number:</label>
+    <input type="text" id="bus-stop" placeholder="Enter bus stop number" />
+    <button id="get-arrival-time">Get Arrival Times</button>
+    <div id="arrival-times"></div>
+  </div>
+
   <script src="public/js/app.js"></script>
 </body>
 </html>
