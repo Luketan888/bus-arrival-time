@@ -4,17 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Arrival Times</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css"> <!-- Add your CSS file here -->
 </head>
 <body>
-  <div class="container">
+  <div id="main-content">
     <h1>Bus Arrival Times</h1>
-    <label for="bus-stop">Enter Bus Stop Number:</label>
-    <input type="text" id="bus-stop" placeholder="Enter bus stop number" />
-    <button id="get-arrival-time">Get Arrival Times</button>
-    <div id="arrival-times"></div>
+    <p>Enter the bus stop number to get the expected arrival times for buses:</p>
+
+    <!-- Input for Bus Stop Number -->
+    <input type="text" id="bus-stop-number" placeholder="Enter Bus Stop Number" />
+
+    <!-- Button to Trigger API Call -->
+    <button id="get-arrival-times">Get Arrival Times</button>
+
+    <!-- Area to display arrival times -->
+    <ul id="arrival-list"></ul>
+
+    <!-- Error message area -->
+    <div id="error-message" style="color: red; display: none;"></div>
   </div>
 
-  <script src="public/js/app.js"></script>
+  <script src="public/js/script.js"></script> <!-- Your script.js file -->
 </body>
 </html>
