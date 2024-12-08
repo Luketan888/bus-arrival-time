@@ -4,75 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Arrival Time</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    #result {
-      margin-top: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Bus Arrival Time</h1>
+  <div class="container">
+    <h1>Bus Arrival Time</h1>
 
-  <form id="bus-form">
-    <label for="bus-stop">Enter Bus Stop Number:</label>
-    <input type="text" id="bus-stop" name="bus-stop" placeholder="e.g., 12345" required>
-    <button type="submit">Get Arrival Time</button>
-  </form>
+    <form id="bus-form">
+      <label for="bus-stop">Enter Bus Stop Number:</label>
+      <input type="text" id="bus-stop" name="bus-stop" placeholder="e.g., 12345" required>
+      <button type="submit">Get Arrival Time</button>
+    </form>
 
-  <div id="result"></div>
+    <div id="result"></div>
+  </div>
 
-  <script>
-    // Your existing JavaScript logic
-    const form = document.getElementById('bus-form');
-    const resultDiv = document.getElementById('result');
-    
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const busStopNumber = document.getElementById('bus-stop').value;
-
-      // Check if the input is a valid number
-      if (!busStopNumber) {
-        resultDiv.innerHTML = 'Please enter a valid bus stop number.';
-        return;
-      }
-
-      // Fetch bus arrival data from LTA's Datamall API
-      const apiKey = 'CDQSBpysS2qRZWVI4loIcw=='; // Your API key
-      const apiUrl = `https://api.data.gov.sg/v1/transport/bus-arrival?bus_stop_id=${busStopNumber}`;
-      
-      try {
-        const response = await fetch(apiUrl, {
-          headers: {
-            'AccountKey': apiKey
-          }
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-
-          // Process the response to display bus arrival times
-          const arrivals = data.services;
-          if (arrivals.length > 0) {
-            let output = `<h2>Bus Arrival Times for Bus Stop ${busStopNumber}:</h2>`;
-            arrivals.forEach(service => {
-              output += `<p>Bus ${service.bus_no}: ${service.next_bus.estimate_arrival} minutes</p>`;
-            });
-            resultDiv.innerHTML = output;
-          } else {
-            resultDiv.innerHTML = 'No buses arriving soon.';
-          }
-        } else {
-          resultDiv.innerHTML = 'Error fetching data from API.';
-        }
-      } catch (error) {
-        resultDiv.innerHTML = `Error: ${error.message}`;
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
