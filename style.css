@@ -8,7 +8,7 @@ body {
   margin: 0;
 }
 
-.container {
+#main-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -44,6 +44,11 @@ button:hover {
   background-color: #0056b3;
 }
 
-#result {
-  margin-top: 20px;
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
 }
