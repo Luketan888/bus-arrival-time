@@ -1,5 +1,5 @@
-// Replace with your actual API key during deployment
-const apiKey = "DEFAULT_API_KEY";
+// Placeholder for the API key, replaced during deployment
+const apiKey = "DEFAULT_API_KEY"; // This will be replaced with the actual key during deployment
 
 // Base API URL for fetching bus arrival data
 const apiUrl = 'https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=';
@@ -10,7 +10,7 @@ async function getBusArrivalTimes(stopId) {
     const response = await fetch(`${apiUrl}${stopId}`, {
       headers: {
         'accept': 'application/json',
-        'AccountKey': apiKey
+        'AccountKey': apiKey,
       }
     });
 
@@ -25,19 +25,12 @@ async function getBusArrivalTimes(stopId) {
   }
 }
 
-// Function to format the ISO date
-function formatDate(isoDate) {
-  const date = new Date(isoDate);
-  return new Intl.DateTimeFormat('en-US', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: true
-  }).format(date);
+// Function to format the arrival time (Optional)
+function formatArrivalTime(timestamp) {
+  const date = new Date(timestamp);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
 }
 
 // Function to render bus arrival times in HTML
@@ -45,17 +38,15 @@ function renderBusArrivalTimes(data) {
   const arrivalList = document.getElementById('arrival-list');
   arrivalList.innerHTML = ''; // Clear previous content
 
-  if (!data || !data.Services || data.Services.length === 0) {
-    arrivalList.innerHTML = 'No data available for this bus stop or invalid bus stop number.';
-    return;
+  if (data.Services && data.Services.length > 0) {
+    data.Services.forEach(service => {
+      const li = document.createElement('li');
+      li.textContent = `Bus ${service.ServiceNo} (${service.Operator}) - Next Arrival: ${formatArrivalTime(service.NextBus.EstimatedArrival)} | 2nd Arrival: ${formatArrivalTime(service.NextBus2.EstimatedArrival)} | 3rd Arrival: ${formatArrivalTime(service.NextBus3.EstimatedArrival)}`;
+      arrivalList.appendChild(li);
+    });
+  } else {
+    arrivalList.innerHTML = 'No data available for this bus stop.';
   }
-
-  data.Services.forEach(service => {
-    const li = document.createElement('li');
-    const arrivalTime = formatDate(service.NextBus.EstimatedArrival);
-    li.textContent = `Bus ${service.ServiceNo} - Next Arrival: ${arrivalTime}`;
-    arrivalList.appendChild(li);
-  });
 }
 
 // Function to display error messages
