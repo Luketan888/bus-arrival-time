@@ -14,23 +14,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Step 2: Set up Node.js (only if you're using Node.js, adjust if needed)
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'  # Specify the Node.js version you're using
-
-    # Step 3: Install dependencies (only if you're using npm or node-based build system)
-    - name: Install dependencies
-      run: npm install
-
-    # Step 4: Replace API Key in script.js with your secret API Key
+    # Step 2: Replace API Key in script.js with your secret API Key
     - name: Replace API Key in script.js
       run: |
         sed -i 's/DEFAULT_API_KEY/${{ secrets.DATAMALL_API_KEY }}/g' public/js/script.js
       # This replaces 'DEFAULT_API_KEY' in your script.js with the API key stored in GitHub Secrets
 
-    # Step 5: Deploy to GitHub Pages
+    # Step 3: Deploy to GitHub Pages
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
