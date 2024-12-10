@@ -1,5 +1,4 @@
-// Placeholder for the API key, replaced during deployment
-const apiKey = "DEFAULT_API_KEY"; // This will be replaced with the actual key during deployment
+const apiKey = "DEFAULT_API_KEY"; // Replace this with the actual API key
 
 // Base API URL for fetching bus arrival data
 const apiUrl = 'https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=';
@@ -10,7 +9,7 @@ async function getBusArrivalTimes(stopId) {
     const response = await fetch(`${apiUrl}${stopId}`, {
       headers: {
         'accept': 'application/json',
-        'AccountKey': apiKey,
+        'AccountKey': apiKey
       }
     });
 
@@ -25,14 +24,6 @@ async function getBusArrivalTimes(stopId) {
   }
 }
 
-// Function to format the arrival time (Optional)
-function formatArrivalTime(timestamp) {
-  const date = new Date(timestamp);
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${hours}:${minutes}`;
-}
-
 // Function to render bus arrival times in HTML
 function renderBusArrivalTimes(data) {
   const arrivalList = document.getElementById('arrival-list');
@@ -41,7 +32,7 @@ function renderBusArrivalTimes(data) {
   if (data.Services && data.Services.length > 0) {
     data.Services.forEach(service => {
       const li = document.createElement('li');
-      li.textContent = `Bus ${service.ServiceNo} (${service.Operator}) - Next Arrival: ${formatArrivalTime(service.NextBus.EstimatedArrival)} | 2nd Arrival: ${formatArrivalTime(service.NextBus2.EstimatedArrival)} | 3rd Arrival: ${formatArrivalTime(service.NextBus3.EstimatedArrival)}`;
+      li.textContent = `Bus ${service.ServiceNo} - Next Arrival: ${service.NextBus.EstimatedArrival}`;
       arrivalList.appendChild(li);
     });
   } else {
