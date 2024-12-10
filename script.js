@@ -1,41 +1,59 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const busStopSelect = document.getElementById('bus-stop');
-    const busTimesContainer = document.getElementById('bus-times');
+// Replace this with your LTA Datamall API key
+const apiKey = 'YOUR_API_KEY_HERE';
 
-    // Function to fetch bus times for the selected bus stop
-    function fetchBusTimes(stop) {
-        busTimesContainer.innerHTML = "<p>Loading bus arrival times...</p>";
+// DOM elements
+const busStopCodeInput = document.getElementById('busStopCode');
+const getArrivalTimesButton = document.getElementById('getArrivalTimes');
+const busArrivalTimesDiv = document.getElementById('busArrivalTimes');
 
-        // Example: Replace this URL with the actual API URL for bus arrival times
-        const apiUrl = `https://api.example.com/bus-times?stop=${stop}`;
-
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.arrivals) {
-                    // Clear the loading message and display bus times
-                    busTimesContainer.innerHTML = "";
-                    data.arrivals.forEach(arrival => {
-                        const timeElement = document.createElement('p');
-                        timeElement.textContent = `Bus arrives at: ${arrival.time}`;
-                        busTimesContainer.appendChild(timeElement);
-                    });
-                } else {
-                    busTimesContainer.innerHTML = "<p>No bus times available at the moment.</p>";
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching bus times:', error);
-                busTimesContainer.innerHTML = "<p>Failed to load bus times. Please try again later.</p>";
-            });
+// Event listener for the "Get Arrival Times" button
+getArrivalTimesButton.addEventListener('click', async function() {
+    const busStopCode = busStopCodeInput.value.trim();
+    
+    // Validate the bus stop code
+    if (!busStopCode || busStopCode.length !== 5 || isNaN(busStopCode)) {
+        alert('Please enter a valid 5-digit bus stop code.');
+        return;
     }
 
-    // Event listener for when the user selects a new bus stop
-    busStopSelect.addEventListener('change', function () {
-        const selectedStop = busStopSelect.value;
-        fetchBusTimes(selectedStop);
-    });
+    // Clear previous results
+    busArrivalTimesDiv.innerHTML = 'Loading bus arrival times...';
 
-    // Initialize by fetching bus times for the first selected stop
-    fetchBusTimes(busStopSelect.value);
+    try {
+        // Fetch the bus arrival data from LTA's Datamall API
+        const response = await fetch(`http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${busStopCode}`, {
+            method: 'GET',
+            headers: {
+                'AccountKey': apiKey,
+                'accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch bus data');
+        }
+
+        const data = await response.json();
+
+        // Process and display the bus arrival times
+        if (data.value && data.value.length > 0) {
+            let arrivalTimesHTML = '';
+            data.value.forEach(bus => {
+                const busInfo = `
+                    <p><strong>Bus Service:</strong> ${bus.ServiceNo}</p>
+                    <p><strong>Next Arrival:</strong> ${bus.EstimatedArrival}</p>
+                    <p><strong>Expected Waiting Time:</strong> ${bus.EstimatedArrival}</p>
+                    <p><strong>Bus Type:</strong> ${bus.Type}</p>
+                `;
+                arrivalTimesHTML += busInfo;
+            });
+            busArrivalTimesDiv.innerHTML = arrivalTimesHTML;
+        } else {
+            busArrivalTimesDiv.innerHTML = 'No upcoming buses at this stop.';
+        }
+
+    } catch (error) {
+        console.error('Error fetching bus arrival data:', error);
+        busArrivalTimesDiv.innerHTML = 'Error fetching bus arrival times. Please try again later.';
+    }
 });
