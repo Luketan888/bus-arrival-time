@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bus Arrival Times</title>
-  <link rel="stylesheet" href="styles/styles.css"> <!-- Corrected path -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Arrival Times</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="main-content">
-    <h1>Bus Arrival Times</h1>
-    <p>Enter the bus stop number to get the expected arrival times for buses:</p>
+    <div class="container">
+        <h1>Bus Arrival Times</h1>
+        <p>Please enter the 5-digit bus stop code:</p>
+        <input type="text" id="busStopCode" placeholder="Enter 5-digit bus stop code" />
+        <button id="getArrivalTimes">Get Arrival Times</button>
+        
+        <div id="busArrivalTimes">
+            <!-- Bus arrival times will be displayed here -->
+        </div>
+    </div>
 
-    <!-- Input for Bus Stop Number -->
-    <input type="text" id="bus-stop-number" placeholder="Enter Bus Stop Number" />
-
-    <!-- Button to Trigger API Call -->
-    <button id="get-arrival-times">Get Arrival Times</button>
-
-    <!-- Area to display arrival times -->
-    <ul id="arrival-list"></ul>
-
-    <!-- Error message area -->
-    <div id="error-message" style="color: red; display: none;"></div>
-  </div>
-
-  <script src="js/script.js"></script> <!-- Corrected path -->
+    <script src="script.js"></script>
 </body>
 </html>
