@@ -3,28 +3,37 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # Trigger deployment on push to the main branch
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    # Step 1: Checkout the code
+    - name: Checkout code
       uses: actions/checkout@v2
 
+    # Step 2: Set up Node.js (only needed if you're building your project using Node.js, adjust if necessary)
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16'
+        node-version: '16'  # Specify the Node.js version you're using
 
-    - name: Inject API key into JavaScript
+    # Step 3: Install dependencies (if you have a package.json file)
+    - name: Install dependencies
+      run: npm install
+
+    # Step 4: Replace API Key in script.js (use GitHub Secrets for storing your API key securely)
+    - name: Replace API Key in script.js
       run: |
-        # Replace 'DEFAULT_API_KEY' with the secret stored in GitHub Secrets
-        sed -i "s|DEFAULT_API_KEY|${{ secrets.DATAMALL_API_KEY }}|g" public/js/script.js
+        sed -i 's/DEFAULT_API_KEY/${{ secrets.DATAMALL_API_KEY }}/g' public/js/script.js
+      # Replace 'DATAMALL_API_KEY' with the name of your secret in GitHub Secrets
 
+    # Step 5: Deploy to GitHub Pages
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: gh-pages
-        folder: public
+        branch: gh-pages  # The branch to deploy to (typically 'gh-pages')
+        folder: public    # Folder where your built website is (i.e., the public folder)
+        token: ${{ secrets.GH_TOKEN }}  # Use the secret containing your Personal Access Token (PAT)
