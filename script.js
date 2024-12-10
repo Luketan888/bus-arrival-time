@@ -1,15 +1,27 @@
-// Replace this with your LTA Datamall API key
-const apiKey = 'nOtlZbS8RGqtGYubx6yqig==';
-
-// DOM elements
+```javascript
+// script.js
 const busStopCodeInput = document.getElementById('busStopCode');
 const getArrivalTimesButton = document.getElementById('getArrivalTimes');
 const busArrivalTimesDiv = document.getElementById('busArrivalTimes');
 
-// Event listener for the "Get Arrival Times" button
+// API Key will be replaced during deployment
+const apiKey = 'REPLACE_WITH_API_KEY';
+
+// Function to calculate estimated waiting time
+function calculateWaitingTime(estimatedArrival) {
+    if (!estimatedArrival) return 'No timing available';
+    
+    const now = new Date();
+    const arrivalTime = new Date(estimatedArrival);
+    const diffMinutes = Math.round((arrivalTime - now) / 60000);
+    
+    if (diffMinutes <= 0) return 'Arriving';
+    return `${diffMinutes} min`;
+}
+
 getArrivalTimesButton.addEventListener('click', async function() {
     const busStopCode = busStopCodeInput.value.trim();
-    
+
     // Validate the bus stop code
     if (!busStopCode || busStopCode.length !== 5 || isNaN(busStopCode)) {
         alert('Please enter a valid 5-digit bus stop code.');
@@ -20,8 +32,8 @@ getArrivalTimesButton.addEventListener('click', async function() {
     busArrivalTimesDiv.innerHTML = 'Loading bus arrival times...';
 
     try {
-        // Fetch the bus arrival data from LTA's Datamall API
-        const response = await fetch(`http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${busStopCode}`, {
+        // Directly call LTA Datamall API
+        const response = await fetch(`https://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${busStopCode}`, {
             method: 'GET',
             headers: {
                 'AccountKey': apiKey,
@@ -36,14 +48,24 @@ getArrivalTimesButton.addEventListener('click', async function() {
         const data = await response.json();
 
         // Process and display the bus arrival times
-        if (data.value && data.value.length > 0) {
+        if (data.Services && data.Services.length > 0) {
             let arrivalTimesHTML = '';
-            data.value.forEach(bus => {
+            data.Services.forEach(bus => {
+                const nextBus = bus.NextBus || {};
+                const subsequentBus = bus.SubsequentBus || {};
+
                 const busInfo = `
-                    <p><strong>Bus Service:</strong> ${bus.ServiceNo}</p>
-                    <p><strong>Next Arrival:</strong> ${bus.EstimatedArrival}</p>
-                    <p><strong>Expected Waiting Time:</strong> ${bus.EstimatedArrival}</p>
-                    <p><strong>Bus Type:</strong> ${bus.Type}</p>
+                    <div class="bus-service">
+                        <p><strong>Bus Service:</strong> ${bus.ServiceNo}</p>
+                        <p><strong>Next Bus:</strong> 
+                            Type: ${nextBus.Type || 'N/A'}, 
+                            Estimated Arrival: ${calculateWaitingTime(nextBus.EstimatedArrival)}
+                        </p>
+                        <p><strong>Subsequent Bus:</strong> 
+                            Type: ${subsequentBus.Type || 'N/A'}, 
+                            Estimated Arrival: ${calculateWaitingTime(subsequentBus.EstimatedArrival)}
+                        </p>
+                    </div>
                 `;
                 arrivalTimesHTML += busInfo;
             });
@@ -54,6 +76,7 @@ getArrivalTimesButton.addEventListener('click', async function() {
 
     } catch (error) {
         console.error('Error fetching bus arrival data:', error);
-        busArrivalTimesDiv.innerHTML = 'Error fetching bus arrival times. Please try again later.';
+        busArrivalTimesDiv.innerHTML = `Error: ${error.message}. Please try again later.`;
     }
 });
+```
