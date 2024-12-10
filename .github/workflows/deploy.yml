@@ -1,0 +1,29 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Replace API Key in script.js with your secret API Key
+    - name: Replace API Key in script.js
+      run: |
+        sed -i 's/DEFAULT_API_KEY/${{ secrets.DATAMALL_API_KEY }}/g' public/js/script.js
+      # This replaces 'DEFAULT_API_KEY' in your script.js with the API key stored in GitHub Secrets
+
+    # Step 3: Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages  # The branch to deploy to (typically 'gh-pages')
+        folder: public    # Folder where your website is (i.e., the public folder)
+        token: ${{ secrets.GH_TOKEN }}  # Use your GitHub token for authentication
