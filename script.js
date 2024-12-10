@@ -1,5 +1,4 @@
 ```javascript
-// script.js
 const busStopCodeInput = document.getElementById('busStopCode');
 const getArrivalTimesButton = document.getElementById('getArrivalTimes');
 const busArrivalTimesDiv = document.getElementById('busArrivalTimes');
