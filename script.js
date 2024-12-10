@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const busRouteSelect = document.getElementById('bus-route');
+    const busStopSelect = document.getElementById('bus-stop');
     const busTimesContainer = document.getElementById('bus-times');
 
-    // Function to fetch bus arrival times based on selected route
-    function fetchBusTimes(route) {
+    // Function to fetch bus times for the selected bus stop
+    function fetchBusTimes(stop) {
         busTimesContainer.innerHTML = "<p>Loading bus arrival times...</p>";
 
         // Example: Replace this URL with the actual API URL for bus arrival times
-        const apiUrl = `https://api.example.com/bus-times?route=${route}`;
+        const apiUrl = `https://api.example.com/bus-times?stop=${stop}`;
 
         fetch(apiUrl)
             .then(response => response.json())
@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Event listener for when the user selects a new bus route
-    busRouteSelect.addEventListener('change', function () {
-        const selectedRoute = busRouteSelect.value;
-        fetchBusTimes(selectedRoute);
+    // Event listener for when the user selects a new bus stop
+    busStopSelect.addEventListener('change', function () {
+        const selectedStop = busStopSelect.value;
+        fetchBusTimes(selectedStop);
     });
 
-    // Initial load for the first route
-    fetchBusTimes(busRouteSelect.value);
+    // Initialize by fetching bus times for the first selected stop
+    fetchBusTimes(busStopSelect.value);
 });
