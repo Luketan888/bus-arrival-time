@@ -1,5 +1,5 @@
 // Replace this with your LTA Datamall API key
-const apiKey = 'YOUR_API_KEY_HERE';
+const apiKey = 'nOtlZbS8RGqtGYubx6yqig==';
 
 // DOM elements
 const busStopCodeInput = document.getElementById('busStopCode');
