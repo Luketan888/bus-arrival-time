@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Arrival Times</title>
-    
-    <!-- Link to External CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Optionally include a favicon -->
-    <link rel="icon" href="favicon.ico">
 </head>
-
 <body>
     <div class="container">
         <header>
             <h1>Bus Arrival Times</h1>
         </header>
 
-        <!-- Form for Selecting Bus Route -->
-        <section class="bus-selector">
-            <label for="bus-route">Select a Bus Route:</label>
-            <select id="bus-route">
-                <option value="route-1">Route 1</option>
-                <option value="route-2">Route 2</option>
-                <option value="route-3">Route 3</option>
-                <!-- Add more routes as needed -->
+        <!-- Bus Stop Selection -->
+        <section class="bus-stop-selector">
+            <label for="bus-stop">Select a Bus Stop:</label>
+            <select id="bus-stop">
+                <option value="stop-1A">Stop 1A</option>
+                <option value="stop-1B">Stop 1B</option>
+                <option value="stop-2A">Stop 2A</option>
+                <option value="stop-2B">Stop 2B</option>
+                <option value="stop-3A">Stop 3A</option>
+                <option value="stop-3B">Stop 3B</option>
             </select>
         </section>
 
@@ -34,7 +29,6 @@
         <section id="arrival-times">
             <h2>Upcoming Buses</h2>
             <div id="bus-times">
-                <!-- Bus times will be displayed here -->
                 <p>Loading bus arrival times...</p>
             </div>
         </section>
@@ -47,5 +41,4 @@
     <!-- Link to External JavaScript -->
     <script src="script.js"></script>
 </body>
-
 </html>
