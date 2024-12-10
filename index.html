@@ -1,18 +1,20 @@
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Arrival Times</title>
+    <title>Singapore Bus Arrival Times</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Bus Arrival Times</h1>
-        <p>Please enter the 5-digit bus stop code:</p>
-        <input type="text" id="busStopCode" placeholder="Enter 5-digit bus stop code" />
+        <h1>Singapore Bus Arrival Times</h1>
+        <p>Enter a 5-digit bus stop code:</p>
+        <input type="text" id="busStopCode" placeholder="e.g. 43009" maxlength="5" />
         <button id="getArrivalTimes">Get Arrival Times</button>
-        
+
         <div id="busArrivalTimes">
             <!-- Bus arrival times will be displayed here -->
         </div>
@@ -21,3 +23,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+```
