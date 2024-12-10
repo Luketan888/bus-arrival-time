@@ -1,30 +1,32 @@
+```yaml
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Trigger deployment on push to the main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
     - name: Replace API Key in script.js
       run: |
-        sed -i "s|process\.env\.DATAMALL_API_KEY \|\| 'YOUR_DEFAULT_API_KEY'|'${{ secrets.DATAMALL_API_KEY }}'|g" script.js
+        sed -i "s/REPLACE_WITH_API_KEY/${{ secrets.DATAMALL_API_KEY }}/g" script.js
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages
-        folder: .  # Deploy entire repository
+        folder: .
+        clean: true
         token: ${{ secrets.GH_TOKEN }}
+```
