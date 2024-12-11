@@ -21,7 +21,7 @@ jobs:
 
     - name: Replace API Key in script.js
       run: |
-        sed -i "s/REPLACE_WITH_API_KEY/${{ secrets.DATAMALL_API_KEY }}/g" script.js
+        sed -i "s/nOtlZbS8RGqtGYubx6yqig==/${{ secrets.DATAMALL_API_KEY }}/g" script.js
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
