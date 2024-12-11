@@ -47,9 +47,9 @@ getArrivalTimesButton.addEventListener('click', async function() {
         const data = await response.json();
 
         // Process and display the bus arrival times
-        if (data.Services && data.Services.length > 0) {
+        if (data.value && data.value.length > 0) {
             let arrivalTimesHTML = '';
-            data.Services.forEach(bus => {
+            data.value.forEach(bus => {
                 const nextBus = bus.NextBus || {};
                 const subsequentBus = bus.SubsequentBus || {};
 
