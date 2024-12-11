@@ -5,11 +5,11 @@ const busArrivalTimesDiv = document.getElementById('busArrivalTimes');
 // Function to calculate estimated waiting time
 function calculateWaitingTime(estimatedArrival) {
     if (!estimatedArrival) return 'No timing available';
-    
+
     const now = new Date();
     const arrivalTime = new Date(estimatedArrival);
     const diffMinutes = Math.round((arrivalTime - now) / 60000);
-    
+
     if (diffMinutes <= 0) return 'Arriving';
     return `${diffMinutes} min`;
 }
