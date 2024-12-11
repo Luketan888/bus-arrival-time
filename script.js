@@ -1,11 +1,6 @@
-```javascript
-// script.js
 const busStopCodeInput = document.getElementById('busStopCode');
 const getArrivalTimesButton = document.getElementById('getArrivalTimes');
 const busArrivalTimesDiv = document.getElementById('busArrivalTimes');
-
-// API Key will be replaced during deployment
-const apiKey = 'REPLACE_WITH_API_KEY';
 
 // Function to calculate estimated waiting time
 function calculateWaitingTime(estimatedArrival) {
@@ -33,11 +28,10 @@ getArrivalTimesButton.addEventListener('click', async function() {
 
     try {
         // Directly call LTA Datamall API
-        const response = await fetch(`https://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${busStopCode}`, {
+        const response = await fetch(`https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=${busStopCode}&AccountKey=${process.env.DATAMALL_API_KEY}`, {
             method: 'GET',
             headers: {
-                'AccountKey': apiKey,
-                'accept': 'application/json'
+                'Accept': 'application/json'
             }
         });
 
@@ -48,9 +42,9 @@ getArrivalTimesButton.addEventListener('click', async function() {
         const data = await response.json();
 
         // Process and display the bus arrival times
-        if (data.Services && data.Services.length > 0) {
+        if (data.value && data.value.length > 0) {
             let arrivalTimesHTML = '';
-            data.Services.forEach(bus => {
+            data.value.forEach(bus => {
                 const nextBus = bus.NextBus || {};
                 const subsequentBus = bus.SubsequentBus || {};
 
@@ -79,4 +73,3 @@ getArrivalTimesButton.addEventListener('click', async function() {
         busArrivalTimesDiv.innerHTML = `Error: ${error.message}. Please try again later.`;
     }
 });
-```
