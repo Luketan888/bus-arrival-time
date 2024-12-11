@@ -1,4 +1,3 @@
-```yaml
 name: Deploy to GitHub Pages
 
 on:
@@ -9,7 +8,6 @@ on:
 permissions:
   contents: write
   pages: write
-  id-token: write
 
 jobs:
   deploy:
@@ -21,7 +19,7 @@ jobs:
 
     - name: Replace API Key in script.js
       run: |
-        sed -i "s/nOtlZbS8RGqtGYubx6yqig==/${{ secrets.DATAMALL_API_KEY }}/g" script.js
+        sed -i "s/YOUR_PLACEHOLDER_API_KEY/${{ secrets.DATAMALL_API_KEY }}/g" script.js
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
@@ -30,4 +28,3 @@ jobs:
         folder: .
         clean: true
         token: ${{ secrets.GH_TOKEN }}
-```
