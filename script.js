@@ -4,7 +4,7 @@ const getArrivalTimesButton = document.getElementById('getArrivalTimes');
 const busArrivalTimesDiv = document.getElementById('busArrivalTimes');
 
 // API Key will be replaced during deployment
-const apiKey = 'REPLACE_WITH_API_KEY';
+const apiKey = 'nOtlZbS8RGqtGYubx6yqig==';
 
 // Function to calculate estimated waiting time
 function calculateWaitingTime(estimatedArrival) {
