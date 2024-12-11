@@ -32,7 +32,7 @@ getArrivalTimesButton.addEventListener('click', async function() {
 
     try {
         // Directly call LTA Datamall API
-        const response = await fetch(`https://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${busStopCode}`, {
+        const response = await fetch(`https://datamall2.mytransport.sg/ltaodataservice/BusArrivalv3?BusStopCode=${busStopCode}`, {
             method: 'GET',
             headers: {
                 'AccountKey': apiKey,
