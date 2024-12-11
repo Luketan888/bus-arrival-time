@@ -1,81 +1,68 @@
-```javascript
-const busStopCodeInput = document.getElementById('busStopCode');
-const getArrivalTimesButton = document.getElementById('getArrivalTimes');
-const busArrivalTimesDiv = document.getElementById('busArrivalTimes');
-
-// API Key will be replaced during deployment
-const apiKey = 'nOtlZbS8RGqtGYubx6yqig==';
-
-// Function to calculate estimated waiting time
-function calculateWaitingTime(estimatedArrival) {
-    if (!estimatedArrival) return 'No timing available';
-    
-    const now = new Date();
-    const arrivalTime = new Date(estimatedArrival);
-    const diffMinutes = Math.round((arrivalTime - now) / 60000);
-    
-    if (diffMinutes <= 0) return 'Arriving';
-    return `${diffMinutes} min`;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-getArrivalTimesButton.addEventListener('click', async function() {
-    const busStopCode = busStopCodeInput.value.trim();
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-    // Validate the bus stop code
-    if (!busStopCode || busStopCode.length !== 5 || isNaN(busStopCode)) {
-        alert('Please enter a valid 5-digit bus stop code.');
-        return;
-    }
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
 
-    // Clear previous results
-    busArrivalTimesDiv.innerHTML = 'Loading bus arrival times...';
+h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
 
-    try {
-        // Directly call LTA Datamall API
-        const response = await fetch(`https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=${busStopCode}`, {
-            method: 'GET',
-            headers: {
-                'AccountKey': apiKey,
-                'accept': 'application/json'
-            }
-        });
+input {
+    padding: 10px;
+    width: 80%;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch bus data');
-        }
+button {
+    padding: 10px;
+    width: 85%;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+}
 
-        const data = await response.json();
+button:hover {
+    background-color: #218838;
+}
 
-        // Process and display the bus arrival times
-        if (data.value && data.value.length > 0) {
-            let arrivalTimesHTML = '';
-            data.value.forEach(bus => {
-                const nextBus = bus.NextBus || {};
-                const subsequentBus = bus.SubsequentBus || {};
+#busArrivalTimes {
+    margin-top: 20px;
+    text-align: left;
+}
 
-                const busInfo = `
-                    <div class="bus-service">
-                        <p><strong>Bus Service:</strong> ${bus.ServiceNo}</p>
-                        <p><strong>Next Bus:</strong> 
-                            Type: ${nextBus.Type || 'N/A'}, 
-                            Estimated Arrival: ${calculateWaitingTime(nextBus.EstimatedArrival)}
-                        </p>
-                        <p><strong>Subsequent Bus:</strong> 
-                            Type: ${subsequentBus.Type || 'N/A'}, 
-                            Estimated Arrival: ${calculateWaitingTime(subsequentBus.EstimatedArrival)}
-                        </p>
-                    </div>
-                `;
-                arrivalTimesHTML += busInfo;
-            });
-            busArrivalTimesDiv.innerHTML = arrivalTimesHTML;
-        } else {
-            busArrivalTimesDiv.innerHTML = 'No upcoming buses at this stop.';
-        }
-
-    } catch (error) {
-        console.error('Error fetching bus arrival data:', error);
-        busArrivalTimesDiv.innerHTML = `Error: ${error.message}. Please try again later.`;
-    }
-});
-```
+.bus-service {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 4px;
+}
